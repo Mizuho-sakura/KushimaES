@@ -6,97 +6,109 @@
 <title>九島交通局 エントリーシート</title>
 <style>
   :root {
-    --primary-color: #1e3a8a;
-    --primary-hover: #1e40af;
-    --bg-color: #f3f4f6;
-    --card-bg: #ffffff;
-    --text-main: #1f2937;
-    --text-sub: #4b5563;
-    --border-color: #d1d5db;
-    --focus-ring: rgba(30, 58, 138, 0.2);
-    --error-color: #dc2626;
-    --success-color: #16a34a;
+    /* モダンで落ち着いたカラースキーム */
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --text-main: #1e293b;
+    --text-sub: #64748b;
+    --border-color: #e2e8f0;
+    --input-border: #cbd5e1;
+    --input-bg: #f8fafc;
+    --focus-ring: rgba(37, 99, 235, 0.15);
+    --error-color: #e11d48;
+    --error-bg: #fff1f2;
+    --success-color: #059669;
+    --success-bg: #ecfdf5;
   }
 
   body {
-    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
-    background-color: var(--bg-color);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+    background-color: #ffffff; /* 完全な白背景でクリーンに */
     color: var(--text-main);
     margin: 0;
-    padding: 30px 15px;
-    line-height: 1.6;
+    padding: 60px 20px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   .form-container {
-    max-width: 700px;
+    max-width: 680px;
     margin: 0 auto;
-    background: var(--card-bg);
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
+    background: transparent;
+    /* シャドウと枠線を消し、コンテンツ自体を浮かび上がらせる */
+    box-shadow: none; 
   }
 
   .form-header {
-    border-top: 8px solid var(--primary-color);
-    padding: 30px;
-    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 40px;
+    margin-bottom: 40px;
   }
 
   .header-image-placeholder {
     width: 100%;
-    height: 180px;
-    background-color: #e5e7eb;
-    border-radius: 8px;
+    height: 220px;
+    background-color: #f1f5f9;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-sub);
-    font-weight: bold;
-    margin-bottom: 20px;
+    color: #94a3b8;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    margin-bottom: 32px;
   }
 
   .form-title {
-    margin: 0 0 10px 0;
-    font-size: 24px;
-    color: var(--primary-color);
+    margin: 0 0 12px 0;
+    font-size: 28px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.02em;
   }
 
   .form-description {
     color: var(--text-sub);
-    font-size: 14px;
+    font-size: 15px;
     margin: 0;
   }
 
   .form-section {
-    padding: 30px;
+    padding-bottom: 40px;
+    margin-bottom: 40px;
     border-bottom: 1px solid var(--border-color);
   }
 
   .form-section:last-of-type {
     border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 20px;
   }
 
   .section-title {
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 19px;
+    font-weight: 700;
+    color: #0f172a;
     margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 28px;
     display: flex;
     align-items: center;
   }
 
+  /* 縦線のデザインをより洗練されたものに */
   .section-title::before {
     content: '';
     display: inline-block;
-    width: 4px;
+    width: 3px;
     height: 18px;
     background-color: var(--primary-color);
-    margin-right: 10px;
-    border-radius: 2px;
+    margin-right: 12px;
+    border-radius: 4px;
   }
 
   .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 32px;
   }
 
   .form-group:last-child {
@@ -104,20 +116,24 @@
   }
 
   label {
-    display: block;
+    display: flex;
+    align-items: center;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     font-size: 14px;
+    color: #334155;
   }
 
+  /* 必須バッジをより上品に */
   .required {
-    color: #dc2626;
-    font-size: 12px;
-    background: #fee2e2;
-    padding: 2px 6px;
-    border-radius: 4px;
-    margin-left: 8px;
-    font-weight: normal;
+    color: var(--error-color);
+    font-size: 11px;
+    background: var(--error-bg);
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: 10px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
   }
 
   input[type="text"],
@@ -125,13 +141,20 @@
   textarea,
   select {
     width: 100%;
-    padding: 12px 14px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
+    padding: 14px 16px;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
     box-sizing: border-box;
     font-size: 15px;
+    color: #0f172a;
     font-family: inherit;
-    transition: all 0.2s ease;
+    background-color: var(--input-bg);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #94a3b8;
   }
 
   input[type="text"]:focus,
@@ -140,68 +163,87 @@
   select:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px var(--focus-ring);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px var(--focus-ring);
   }
 
-  /* バリデーションエラー時の赤枠 */
   input.error, textarea.error {
     border-color: var(--error-color);
-    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.1);
   }
 
   .error-msg {
     color: var(--error-color);
-    font-size: 12px;
-    margin-top: 4px;
+    font-size: 13px;
+    margin-top: 6px;
     display: none;
+    font-weight: 500;
   }
 
   .error-msg.show {
-    display: block;
+    display: flex;
+    align-items: center;
+  }
+
+  .error-msg.show::before {
+    content: '!';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    background: var(--error-color);
+    color: white;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: bold;
+    margin-right: 6px;
   }
 
   textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 140px;
+    line-height: 1.6;
   }
 
   .radio-group {
     display: flex;
-    gap: 20px;
+    gap: 24px;
     margin-top: 8px;
   }
 
   .radio-label {
     display: flex;
     align-items: center;
-    font-weight: normal;
+    font-weight: 400;
     cursor: pointer;
+    color: #475569;
   }
 
   .radio-label input {
     margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary-color);
   }
 
-  /* ファイルアップロードエリア */
+  /* ファイルアップロードエリアのモダン化 */
   .file-upload-area {
-    border: 2px dashed var(--border-color);
-    border-radius: 6px;
-    background-color: #f9fafb;
-    padding: 20px;
+    border: 1px dashed #94a3b8;
+    border-radius: 10px;
+    background-color: #ffffff;
+    padding: 32px 20px;
     text-align: center;
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
   }
 
-  .file-upload-area:hover {
-    border-color: var(--primary-color);
-    background-color: #eff6ff;
-  }
-
+  .file-upload-area:hover,
   .file-upload-area.dragover {
     border-color: var(--primary-color);
-    background-color: #eff6ff;
+    background-color: #f8fafc;
   }
 
   .file-upload-area input[type="file"] {
@@ -214,40 +256,44 @@
   }
 
   .file-upload-icon {
-    font-size: 32px;
-    margin-bottom: 8px;
+    font-size: 28px;
+    margin-bottom: 12px;
+    opacity: 0.6;
   }
 
   .file-upload-text {
     color: var(--text-sub);
     font-size: 14px;
+    font-weight: 500;
   }
 
   .file-preview-list {
-    margin-top: 12px;
+    margin-top: 16px;
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;
   }
 
   .file-preview-item {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
     border-radius: 6px;
-    padding: 6px 10px;
+    padding: 8px 12px;
     font-size: 13px;
-    color: var(--primary-color);
+    font-weight: 500;
+    color: #334155;
   }
 
   .file-preview-item .remove-file {
     cursor: pointer;
-    color: #9ca3af;
-    font-size: 16px;
+    color: #94a3b8;
+    font-size: 18px;
     line-height: 1;
-    transition: color 0.15s;
+    margin-left: 4px;
+    transition: color 0.2s;
   }
 
   .file-preview-item .remove-file:hover {
@@ -256,52 +302,61 @@
 
   .help-text {
     font-size: 12px;
-    color: var(--text-sub);
-    margin-top: 6px;
+    color: #94a3b8;
+    margin-top: 8px;
     display: block;
   }
 
   .submit-section {
-    padding: 30px;
-    background-color: #f9fafb;
+    padding: 20px 0;
     text-align: center;
   }
 
+  /* ボタンをモダンなピル（角丸）型＆リッチな質感に */
   .submit-btn {
-    background-color: var(--primary-color);
+    background-color: #0f172a;
     color: white;
     border: none;
-    padding: 14px 40px;
+    padding: 16px 48px;
     font-size: 16px;
-    font-weight: bold;
-    border-radius: 6px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    border-radius: 30px;
     cursor: pointer;
-    transition: background-color 0.2s, opacity 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     width: 100%;
-    max-width: 300px;
+    max-width: 340px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
 
   .submit-btn:hover:not(:disabled) {
-    background-color: var(--primary-hover);
+    background-color: #1e293b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  .submit-btn:active:not(:disabled) {
+    transform: translateY(0);
   }
 
   .submit-btn:disabled {
-    opacity: 0.6;
+    background-color: #cbd5e1;
+    color: #94a3b8;
+    box-shadow: none;
     cursor: not-allowed;
   }
 
-  /* スピナー */
   .spinner {
-    width: 18px;
-    height: 18px;
-    border: 3px solid rgba(255,255,255,0.4);
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
     border-top-color: white;
     border-radius: 50%;
-    animation: spin 0.7s linear infinite;
+    animation: spin 0.8s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     display: none;
   }
 
@@ -312,81 +367,98 @@
     to { transform: rotate(360deg); }
   }
 
-  /* メッセージ */
   #msg {
-    margin-top: 16px;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 12px 20px;
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 14px 20px;
     border-radius: 8px;
     display: none;
   }
 
   #msg.success {
     display: block;
-    background: #dcfce7;
+    background: var(--success-bg);
     color: var(--success-color);
-    border: 1px solid #bbf7d0;
   }
 
   #msg.error {
     display: block;
-    background: #fee2e2;
+    background: var(--error-bg);
     color: var(--error-color);
-    border: 1px solid #fecaca;
   }
 
-  /* 送信完了オーバーレイ */
+  /* オーバーレイをより洗練されたポップアップに */
   #successOverlay {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     z-index: 100;
     align-items: center;
     justify-content: center;
+    padding: 20px;
   }
 
   #successOverlay.show {
     display: flex;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
   .success-card {
     background: white;
-    border-radius: 16px;
-    padding: 40px;
+    border-radius: 20px;
+    padding: 48px 40px;
     text-align: center;
-    max-width: 400px;
-    width: 90%;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .success-icon {
-    font-size: 56px;
-    margin-bottom: 16px;
+    font-size: 64px;
+    margin-bottom: 20px;
+    line-height: 1;
   }
 
   .success-card h2 {
-    color: var(--primary-color);
-    margin: 0 0 8px;
+    color: #0f172a;
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 12px;
   }
 
   .success-card p {
     color: var(--text-sub);
-    font-size: 14px;
-    margin: 0 0 24px;
+    font-size: 15px;
+    margin: 0 0 32px;
+    line-height: 1.6;
   }
 
   .success-card button {
     background: var(--primary-color);
     color: white;
     border: none;
-    padding: 10px 28px;
-    border-radius: 6px;
+    padding: 14px 32px;
+    border-radius: 30px;
     font-size: 15px;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
     transition: background 0.2s;
+    width: 100%;
   }
 
   .success-card button:hover {
