@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>九島交通局 採用ポータル</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+  :root {
+    --primary-color: #d90429;
+    --primary-hover: #ef233c;
+    --bg-color: #ffffff;
+    --text-main: #1a1a1e;
+    --text-sub: #6b7280;
+    --letter-spacing: 0.1em;
+  }
+
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: var(--bg-color);
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* スッキリ見せるためスクロール無効 */
+  }
+
+  /* 装飾用の細い赤ライン（フォームのデザインと統一） */
+  .top-line {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--primary-color);
+  }
+
+  .main-container {
+    text-align: center;
+    padding: 20px;
+    animation: fadeIn 1.2s ease-out;
+  }
+
+  .logo-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--primary-color);
+    letter-spacing: var(--letter-spacing);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .title {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 40px 0;
+    letter-spacing: 0.05em;
+    color: var(--text-main);
+  }
+
+  /* スタートボタン */
+  .start-btn {
+    position: relative;
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    text-decoration: none;
+    padding: 20px 80px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    border-radius: 40px;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 10px 20px rgba(217, 4, 41, 0.15);
+  }
+
+  .start-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(217, 4, 41, 0.25);
+    padding: 20px 100px; /* 横に少し広がるアニメーション */
+  }
+
+  .start-btn:active {
+    transform: translateY(-1px);
+  }
+
+  /* 下部の控えめなテキスト */
+  .footer-copy {
+    position: fixed;
+    bottom: 30px;
+    font-size: 11px;
+    color: #9ca3af;
+    letter-spacing: 0.1em;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* スマホ対応 */
+  @media (max-width: 480px) {
+    .title { font-size: 24px; }
+    .start-btn { padding: 18px 60px; font-size: 14px; }
+    .start-btn:hover { padding: 18px 70px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="top-line"></div>
+
+  <div class="main-container">
+    <span class="logo-text">九島交通局</span>
+    <h1 class="title">社員採用試験</h1>
+    
+    <a href="form-kushima0009.html" class="start-btn">開始</a>
+  </div>
+
+  <div class="footer-copy">© 九島交通局 採用担当</div>
+
+</body>
+</html>
