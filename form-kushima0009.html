@@ -43,25 +43,34 @@
   }
 
   .form-header {
-    background-color: var(--brand-color);
+    /* グラデーションのオーバーレイと背景画像を設定 */
+    background-image: 
+      linear-gradient(rgba(15, 37, 55, 0.6), rgba(15, 37, 55, 0.9)), 
+      url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
     color: #ffffff;
-    padding: 2.5rem 2rem;
+    padding: 4rem 2rem; /* 画像をしっかり見せるため、上下の余白を少し広めに設定 */
     border-radius: var(--radius) var(--radius) 0 0;
+    text-align: center; /* タイトルを中央揃えにして洗練された印象に */
   }
 
   .form-title {
     margin: 0 0 0.5rem 0;
-    font-size: 1.5rem;
+    font-size: 1.8rem; /* 存在感を出すために少し大きく */
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em; /* 文字間隔を広げてスタイリッシュに */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6); /* 背景画像に埋もれないよう影を追加 */
   }
 
   .form-description {
-    color: #a3b1c6;
-    font-size: 0.9rem;
+    color: #e6edf5; /* 真っ白ではなく、少し落ち着いた色味で読みやすく */
+    font-size: 0.95rem;
     margin: 0;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
   }
-
   .form-section {
     padding: 2rem;
     border-bottom: 1px solid var(--border-color);
