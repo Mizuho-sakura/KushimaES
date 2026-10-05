@@ -539,7 +539,7 @@
       <span class="error-msg" id="err_reason_apply">志望動機を入力してください</span>
     </div>
     <div class="form-group">
-      <label for="reason_other">他の鉄道ゲームではなく、なぜ当局なのか <span class="required">必須</span></label>
+      <label for="reason_other">他の鉄道ゲームではなく、なぜ当グループなのか <span class="required">必須</span></label>
       <textarea id="reason_other" name="reason_other" placeholder="Roblox上にある他の鉄道グループ・ゲームとの違いや、当局でなければならない理由を教えてください。"></textarea>
       <span class="error-msg" id="err_reason_other">理由を入力してください</span>
     </div>
@@ -645,7 +645,7 @@
       const item = document.createElement('div');
       item.className = 'file-preview-item';
       item.innerHTML = `
-        <span>🖼️ ${f.name}</span>
+        <span>${f.name}</span>
         <span class="remove-file" onclick="removeFile(${i})" title="削除">×</span>
       `;
       list.appendChild(item);
@@ -784,7 +784,7 @@
 
     } catch (err) {
       msg.className = 'error';
-      msg.innerText = `⚠️ エラーが発生しました。時間をおいて再度お試しください。\n(${err.message})`;
+      msg.innerText = `エラーが発生しました。時間をおいて再度お試しください。\n(${err.message})`;
     } finally {
       btn.disabled = false;
       btn.classList.remove('loading');
