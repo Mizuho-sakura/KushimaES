@@ -5,255 +5,179 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>九島交通局 エントリーシート</title>
 <style>
- @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
   :root {
-    --primary-color: #d90429;     /* 洗練されたモダンレッド */
-    --primary-hover: #ef233c;     /* ホバー時の明るいレッド */
-    --bg-color: #fcfcfd;          /* わずかにグレーがかった白（背景用） */
-    --card-bg: #ffffff;           /* 完全な白（フォーム用） */
-    --text-main: #2b2b35;         /* 真っ黒ではない目に優しいダークグレー */
-    --text-sub: #6b7280;          /* 控えめなサブテキストカラー */
-    --border-color: #e4e4e7;      /* 上品な薄いボーダー */
-    --focus-ring: rgba(217, 4, 41, 0.12); /* フォーカス時の柔らかい影 */
-    --error-color: #e11d48;
-    --success-color: #10b981;
+    /* 信頼感のあるコーポレートネイビーとグレーを基調 */
+    --brand-color: #0f2537;
+    --brand-hover: #1a3a54;
+    --accent-color: #0056b3;
+    --bg-color: #f5f6f8;
+    --surface-color: #ffffff;
+    --text-main: #24292f;
+    --text-muted: #57606a;
+    --border-color: #d0d7de;
+    --error-color: #cf222e;
+    --success-color: #1a7f37;
+    --focus-ring: rgba(0, 86, 179, 0.2);
+    --radius: 4px; /* AI感のある過剰な丸みを排除し、シャープに */
   }
 
   body {
-    font-family: 'Noto Sans JP', 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-main);
     margin: 0;
-    padding: 40px 20px;
-    line-height: 1.7;
+    padding: 2rem 1rem;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
 
-  /* フォーム全体の外観 */
   .form-container {
-    max-width: 760px;
+    max-width: 800px;
     margin: 0 auto;
-    background: var(--card-bg);
-    border-radius: 16px;
-    box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(0, 0, 0, 0.03);
-    overflow: hidden;
+    background: var(--surface-color);
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* 過剰な影を排除 */
   }
 
-  /* ヘッダー部分 */
   .form-header {
-    padding: 40px 40px 30px;
-    border-bottom: 1px solid var(--border-color);
-    position: relative;
-  }
-  
-  .form-header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary-color), var(--primary-hover));
-  }
-
-  .header-image-placeholder {
-    width: 100%;
-    height: 200px;
-    background-color: #f3f4f6;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #9ca3af;
-    font-weight: 500;
-    margin-bottom: 30px;
-    letter-spacing: 0.5px;
+    background-color: var(--brand-color);
+    color: #ffffff;
+    padding: 2.5rem 2rem;
+    border-radius: var(--radius) var(--radius) 0 0;
   }
 
   .form-title {
-    margin: 0 0 12px 0;
-    font-size: 26px;
-    font-weight: 600;
-    color: #111827;
-    letter-spacing: 0.5px;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
   }
 
   .form-description {
-    color: var(--text-sub);
-    font-size: 14.5px;
+    color: #a3b1c6;
+    font-size: 0.9rem;
     margin: 0;
   }
 
-  /* セクション */
   .form-section {
-    padding: 40px;
+    padding: 2rem;
     border-bottom: 1px solid var(--border-color);
   }
-
   .form-section:last-of-type {
     border-bottom: none;
   }
 
   .section-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-top: 0;
-    margin-bottom: 28px;
-    color: #111827;
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.5px;
-  }
-
-  .section-title::before {
-    content: '';
-    display: inline-block;
-    width: 4px;
-    height: 18px;
-    background-color: var(--primary-color);
-    margin-right: 12px;
-    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--bg-color);
+    color: var(--brand-color);
   }
 
   .form-group {
-    margin-bottom: 32px;
+    margin-bottom: 1.5rem;
   }
-
   .form-group:last-child {
     margin-bottom: 0;
   }
 
-  /* ラベルと必須マーク */
   label {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    font-weight: 500;
-    margin-bottom: 10px;
-    font-size: 14px;
-    color: #374151;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
   }
 
   .required {
-    color: var(--primary-color);
-    font-size: 11px;
-    background: transparent;
-    border: 1px solid var(--primary-color);
-    padding: 2px 8px;
-    border-radius: 20px; /* スタイリッシュな丸み */
-    margin-left: 12px;
+    color: var(--error-color);
+    font-size: 0.75rem;
+    border: 1px solid var(--error-color);
+    padding: 0.1rem 0.4rem;
+    border-radius: 2px;
+    margin-left: 0.75rem;
     font-weight: 500;
-    letter-spacing: 0.5px;
   }
 
-  /* 入力フィールド */
   input[type="text"],
   input[type="number"],
-  textarea,
-  select {
+  textarea {
     width: 100%;
-    padding: 14px 16px;
-    background-color: #fafafa;
+    padding: 0.75rem;
+    background-color: #f6f8fa;
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: var(--radius);
     box-sizing: border-box;
-    font-size: 15px;
+    font-size: 0.95rem;
     color: var(--text-main);
     font-family: inherit;
-    transition: all 0.25s ease;
+    transition: all 0.2s;
   }
 
-  input[type="text"]::placeholder,
-  input[type="number"]::placeholder,
-  textarea::placeholder {
-    color: #9ca3af;
-  }
-
-  input[type="text"]:focus,
-  input[type="number"]:focus,
-  textarea:focus,
-  select:focus {
+  input:focus, textarea:focus {
     outline: none;
     background-color: #ffffff;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 4px var(--focus-ring);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--focus-ring);
   }
 
-  /* バリデーションエラー */
   input.error, textarea.error {
-    background-color: #fffbfa;
     border-color: var(--error-color);
-    box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.1);
+    background-color: #ffebe9;
   }
 
   .error-msg {
     color: var(--error-color);
-    font-size: 12.5px;
-    margin-top: 8px;
+    font-size: 0.8rem;
+    margin-top: 0.4rem;
     display: none;
     font-weight: 500;
   }
-
-  .error-msg.show {
-    display: block;
-    animation: fadeIn 0.3s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-4px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  .error-msg.show { display: block; }
 
   textarea {
     resize: vertical;
-    min-height: 140px;
-    line-height: 1.6;
+    min-height: 120px;
   }
 
-  /* ラジオボタン */
   .radio-group {
     display: flex;
-    gap: 32px;
-    margin-top: 6px;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
   }
 
   .radio-label {
     display: flex;
     align-items: center;
-    font-weight: 400;
     cursor: pointer;
-    font-size: 15px;
-    color: #4b5563;
+    font-weight: normal;
+    font-size: 0.95rem;
   }
 
-  .radio-label input[type="radio"] {
-    margin-right: 8px;
-    width: 18px;
-    height: 18px;
-    accent-color: var(--primary-color); /* 最新ブラウザ向けのカスタムカラー */
-    cursor: pointer;
+  .radio-label input {
+    margin-right: 0.5rem;
   }
 
-  /* ファイルアップロードエリア */
+  /* ファイルアップロード領域の堅牢化 */
   .file-upload-area {
-    border: 2px dashed #d1d5db;
-    border-radius: 12px;
-    background-color: #fafafa;
-    padding: 40px 20px;
+    border: 1px dashed var(--border-color);
+    background-color: #f6f8fa;
+    padding: 2rem 1rem;
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    border-radius: var(--radius);
     position: relative;
+    transition: background-color 0.2s;
   }
-
-  .file-upload-area:hover,
-  .file-upload-area.dragover {
-    border-color: var(--primary-color);
-    background-color: rgba(217, 4, 41, 0.02);
+  .file-upload-area:hover, .file-upload-area.dragover {
+    background-color: #eef1f5;
+    border-color: var(--brand-color);
   }
-
   .file-upload-area input[type="file"] {
     position: absolute;
     inset: 0;
@@ -263,294 +187,198 @@
     height: 100%;
   }
 
-  .file-upload-icon {
-    font-size: 36px;
-    margin-bottom: 12px;
-    opacity: 0.8;
+  .file-icon {
+    width: 32px;
+    height: 32px;
+    margin: 0 auto 0.5rem;
+    fill: var(--text-muted);
   }
 
   .file-upload-text {
-    color: var(--text-sub);
-    font-size: 14px;
-    font-weight: 500;
+    color: var(--text-muted);
+    font-size: 0.9rem;
   }
 
-  /* アップロードされたファイルのプレビュー */
   .file-preview-list {
-    margin-top: 16px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
   }
 
   .file-preview-item {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: space-between;
     background: #ffffff;
     border: 1px solid var(--border-color);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    border-radius: 8px;
-    padding: 8px 14px;
-    font-size: 13.5px;
-    color: #374151;
-    font-weight: 500;
+    padding: 0.5rem;
+    border-radius: var(--radius);
+    font-size: 0.85rem;
   }
 
-  .file-preview-item .remove-file {
+  .remove-file {
     cursor: pointer;
-    color: #9ca3af;
-    font-size: 18px;
-    line-height: 1;
-    transition: color 0.2s;
-    padding-left: 4px;
+    color: var(--text-muted);
+    padding: 0.2rem;
   }
+  .remove-file:hover { color: var(--error-color); }
 
-  .file-preview-item .remove-file:hover {
-    color: var(--error-color);
-  }
-
-  .help-text {
-    font-size: 12.5px;
-    color: #9ca3af;
-    margin-top: 10px;
-    display: block;
-  }
-
-  /* 送信ボタンエリア */
   .submit-section {
-    padding: 40px;
-    background-color: #ffffff;
+    padding: 2rem;
+    background-color: #f8f9fa;
     text-align: center;
     border-top: 1px solid var(--border-color);
+    border-radius: 0 0 var(--radius) var(--radius);
   }
 
   .submit-btn {
-    background-color: var(--primary-color);
+    background-color: var(--brand-color);
     color: white;
     border: none;
-    padding: 16px 48px;
-    font-size: 16px;
+    padding: 0.8rem 2.5rem;
+    font-size: 1rem;
     font-weight: 600;
-    letter-spacing: 1px;
-    border-radius: 30px; /* モダンなピル形状 */
+    border-radius: var(--radius);
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 0.2s;
     width: 100%;
-    max-width: 340px;
+    max-width: 300px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    box-shadow: 0 6px 16px rgba(217, 4, 41, 0.25);
+    gap: 0.5rem;
   }
-
-  .submit-btn:hover:not(:disabled) {
-    background-color: var(--primary-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(217, 4, 41, 0.35);
-  }
-
-  .submit-btn:active:not(:disabled) {
-    transform: translateY(0);
-    box-shadow: 0 4px 12px rgba(217, 4, 41, 0.2);
-  }
-
+  .submit-btn:hover:not(:disabled) { background-color: var(--brand-hover); }
   .submit-btn:disabled {
-    background-color: #d1d5db;
-    box-shadow: none;
+    background-color: var(--border-color);
     cursor: not-allowed;
-    color: #9ca3af;
   }
 
-  /* スピナー */
   .spinner {
-    width: 20px;
-    height: 20px;
-    border: 3px solid rgba(255,255,255,0.3);
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
     border-top-color: white;
     border-radius: 50%;
-    animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation: spin 0.8s linear infinite;
     display: none;
   }
-
   .submit-btn.loading .spinner { display: block; }
   .submit-btn.loading .btn-text { display: none; }
 
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* 完了・エラーメッセージ */
   #msg {
-    margin-top: 24px;
-    font-size: 14.5px;
-    font-weight: 500;
-    padding: 16px 24px;
-    border-radius: 8px;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    padding: 0.75rem;
+    border-radius: var(--radius);
     display: none;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
   }
-
-  #msg.success {
-    display: block;
-    background: #f0fdf4;
-    color: var(--success-color);
-    border: 1px solid #bbf7d0;
-  }
-
   #msg.error {
     display: block;
-    background: #fff1f2;
+    background: #ffebe9;
     color: var(--error-color);
-    border: 1px solid #fecdd3;
+    border: 1px solid rgba(207, 34, 46, 0.2);
   }
 
-  /* 送信完了オーバーレイ */
+  /* オーバーレイ */
   #successOverlay {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(8px);
+    background: rgba(15, 37, 55, 0.9);
     z-index: 100;
     align-items: center;
     justify-content: center;
   }
-
-  #successOverlay.show {
-    display: flex;
-    animation: overlayFadeIn 0.4s ease forwards;
-  }
-
-  @keyframes overlayFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
+  #successOverlay.show { display: flex; }
+  
   .success-card {
     background: white;
-    border-radius: 20px;
-    padding: 50px 40px;
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
     text-align: center;
-    max-width: 420px;
+    max-width: 400px;
     width: 90%;
-    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
-    border: 1px solid #f3f4f6;
-    transform: translateY(20px);
-    opacity: 0;
-    animation: cardSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
   }
-
-  @keyframes cardSlideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+  .success-svg {
+    width: 48px;
+    height: 48px;
+    fill: var(--success-color);
+    margin: 0 auto 1rem;
   }
-
-  .success-icon {
-    font-size: 64px;
-    margin-bottom: 24px;
-    line-height: 1;
-  }
-
-  .success-card h2 {
-    color: #111827;
-    margin: 0 0 12px;
-    font-size: 24px;
-    font-weight: 600;
-  }
-
-  .success-card p {
-    color: var(--text-sub);
-    font-size: 15px;
-    margin: 0 0 32px;
-    line-height: 1.6;
-  }
-
+  .success-card h2 { margin: 0 0 1rem; font-size: 1.25rem; }
+  .success-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; }
   .success-card button {
-    background: #f3f4f6;
-    color: #374151;
-    border: none;
-    padding: 12px 32px;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 600;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1.5rem;
+    border-radius: var(--radius);
     cursor: pointer;
-    transition: all 0.2s ease;
   }
+  .success-card button:hover { background: #eef1f5; }
 
-  .success-card button:hover {
-    background: #e5e7eb;
-    color: #111827;
-  }
 </style>
 </head>
 <body>
 
-<!-- 送信完了オーバーレイ -->
 <div id="successOverlay">
   <div class="success-card">
-    <div class="success-icon">🎉</div>
-    <h2>送信完了！</h2>
+    <svg class="success-svg" viewBox="0 0 24 24">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    </svg>
+    <h2>送信が完了しました</h2>
     <p>エントリーシートを受け付けました。<br>書類選考の上、Discordにてご連絡いたします。</p>
-    <button onclick="closeOverlay()">閉じる</button>
+    <button id="closeOverlayBtn">閉じる</button>
   </div>
 </div>
 
-<!-- id="entryForm" を追加（JSから参照するため） -->
-<form class="form-container" id="entryForm" action="#" method="POST" enctype="multipart/form-data">
-
+<form class="form-container" id="entryForm">
   <div class="form-header">
-    <div class="header-image-placeholder">
-      [ここに用意した画像を配置]
-    </div>
     <h1 class="form-title">九島交通局 開発メンバー エントリーシート</h1>
-    <p class="form-description">以下のフォームに必要事項を入力し、送信してください。書類選考の上、ご連絡いたします。</p>
+    <p class="form-description">以下のフォームに必要事項を入力し、送信してください。</p>
   </div>
 
-  <!-- ① 基本情報 -->
   <div class="form-section">
     <h2 class="section-title">① 基本情報</h2>
     <div class="form-group">
       <label for="discord_id">Discord ID <span class="required">必須</span></label>
-      <input type="text" id="discord_id" name="discord_id" placeholder="例: username#1234 または username">
+      <input type="text" id="discord_id" placeholder="例: username">
       <span class="error-msg" id="err_discord_id">Discord IDを入力してください</span>
     </div>
     <div class="form-group">
       <label for="roblox_id">Roblox ID <span class="required">必須</span></label>
-      <input type="text" id="roblox_id" name="roblox_id" placeholder="例: RobloxPlayer123">
+      <input type="text" id="roblox_id" placeholder="例: RobloxPlayer123">
       <span class="error-msg" id="err_roblox_id">Roblox IDを入力してください</span>
     </div>
     <div class="form-group">
       <label for="age">年齢 <span class="required">必須</span></label>
-      <input type="number" id="age" name="age" min="10" max="100" placeholder="例: 18">
+      <input type="number" id="age" min="10" max="100" placeholder="例: 18">
       <span class="error-msg" id="err_age">年齢を入力してください</span>
     </div>
   </div>
 
-  <!-- ② 志望動機 -->
   <div class="form-section">
     <h2 class="section-title">② 志望動機</h2>
     <div class="form-group">
       <label for="reason_apply">九島交通局に応募した理由 <span class="required">必須</span></label>
-      <textarea id="reason_apply" name="reason_apply" placeholder="どのような点に惹かれて応募したのか、具体的に教えてください。"></textarea>
+      <textarea id="reason_apply" placeholder="具体的な理由を記載してください"></textarea>
       <span class="error-msg" id="err_reason_apply">志望動機を入力してください</span>
     </div>
     <div class="form-group">
-      <label for="reason_other">他の鉄道ゲームではなく、なぜ当グループなのか <span class="required">必須</span></label>
-      <textarea id="reason_other" name="reason_other" placeholder="Roblox上にある他の鉄道グループ・ゲームとの違いや、当局でなければならない理由を教えてください。"></textarea>
+      <label for="reason_other">当グループを選ぶ理由 <span class="required">必須</span></label>
+      <textarea id="reason_other" placeholder="他のプロジェクトとの違いや、当グループである必要性を記載してください"></textarea>
       <span class="error-msg" id="err_reason_other">理由を入力してください</span>
     </div>
   </div>
 
-  <!-- ③ スキルチェック -->
   <div class="form-section">
-    <h2 class="section-title">③ スキルチェック</h2>
+    <h2 class="section-title">③ スキル・実績</h2>
     <div class="form-group">
-      <label for="languages">使用できるプログラミング言語・ツール</label>
-      <input type="text" id="languages" name="languages" placeholder="例: Luau, Python, Blender など">
+      <label for="languages">使用可能な技術（言語・ツール）</label>
+      <input type="text" id="languages" placeholder="例: Luau, Python, Blender など">
     </div>
     <div class="form-group">
       <label>RobloxStudioの経験 <span class="required">必須</span></label>
@@ -561,99 +389,76 @@
       <span class="error-msg" id="err_studio_exp">選択してください</span>
     </div>
     <div class="form-group">
-      <label>今まで制作してきたものの画像 <span class="required">必須</span>（複数枚可）</label>
+      <label>ポートフォリオ画像 <span class="required">必須</span></label>
       <div class="file-upload-area" id="dropZone">
-        <input type="file" id="portfolio_images" name="portfolio_images" accept="image/*" multiple
-               onchange="handleFileChange(this)">
-        <div class="file-upload-icon">📁</div>
-        <div class="file-upload-text">クリックして選択、またはここにドラッグ＆ドロップ</div>
+        <input type="file" id="portfolio_images" accept="image/*" multiple>
+        <svg class="file-icon" viewBox="0 0 24 24">
+          <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.36 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
+        </svg>
+        <div class="file-upload-text">クリックして画像を選択、またはドロップ<br><small>(複数選択可 / 1枚あたり最大5MB)</small></div>
       </div>
       <div class="file-preview-list" id="filePreviewList"></div>
       <span class="error-msg" id="err_portfolio">画像を1枚以上アップロードしてください</span>
-      <span class="help-text">※複数枚まとめて選択できます（Ctrl/Cmd+クリック）</span>
     </div>
     <div class="form-group">
-      <label for="technical_strengths">技術面での強み <span class="required">必須</span></label>
-      <textarea id="technical_strengths" name="technical_strengths" placeholder="モデリングが得意、UIデザインができる、スクリプトで複雑なシステムが組める等、あなたのアピールポイントを教えてください。"></textarea>
+      <label for="technical_strengths">技術的な強み <span class="required">必須</span></label>
+      <textarea id="technical_strengths" placeholder="モデリング、UIデザイン、スクリプト構築など、アピールポイントを記載してください"></textarea>
       <span class="error-msg" id="err_technical">技術面での強みを入力してください</span>
     </div>
   </div>
 
-  <!-- ④ 自由記述 -->
   <div class="form-section">
     <h2 class="section-title">④ 自由記述</h2>
     <div class="form-group">
-      <label for="free_text">自由に記述して構いません</label>
-      <textarea id="free_text" name="free_text" placeholder="意気込み、質問、その他アピールしたいことがあればご記入ください。"></textarea>
+      <label for="free_text">備考・アピールポイント</label>
+      <textarea id="free_text" placeholder="意気込みや質問があればご記入ください"></textarea>
     </div>
   </div>
 
-  <!-- ⑤ 学習問題 -->
   <div class="form-section">
-    <h2 class="section-title">⑤ 簡単な学習問題</h2>
-    <p class="form-description" style="margin-bottom: 20px;">基礎的な論理思考や知識を確認するための簡単な問題です。</p>
+    <h2 class="section-title">⑤ 基礎確認テスト</h2>
     <div class="form-group">
-      <label for="math_question">数学の問題: [ここに用意した数学の問題文を記載してください] <span class="required">必須</span></label>
-      <input type="text" id="math_question" name="math_question" placeholder="解答を入力">
+      <label for="math_question">数学: [ここに用意した数学の問題文を記載してください] <span class="required">必須</span></label>
+      <input type="text" id="math_question">
       <span class="error-msg" id="err_math">回答を入力してください</span>
     </div>
     <div class="form-group">
-      <label for="general_knowledge">常識問題: [ここに用意した常識問題の文章を記載してください] <span class="required">必須</span></label>
-      <input type="text" id="general_knowledge" name="general_knowledge" placeholder="解答を入力">
+      <label for="general_knowledge">一般常識: [ここに用意した常識問題の文章を記載してください] <span class="required">必須</span></label>
+      <input type="text" id="general_knowledge">
       <span class="error-msg" id="err_common">回答を入力してください</span>
     </div>
   </div>
 
   <div class="submit-section">
-    <button type="button" id="submitBtn" class="submit-btn" onclick="submitToGas()">
+    <button type="submit" id="submitBtn" class="submit-btn">
       <div class="spinner"></div>
-      <span class="btn-text">エントリーシートを送信する</span>
+      <span class="btn-text">エントリーシートを送信</span>
     </button>
-    <p id="msg"></p>
+    <div id="msg"></div>
   </div>
-
 </form>
 
 <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwlAi4TZ_xlNaW02QNq9o5Ba9cvP8UcbP6vCFz0TdYCu4MRbtX_KaNYQz96sRsxOqZp/exec';
+  const MAX_FILE_SIZE_MB = 5;
+  const MAX_IMAGE_DIMENSION = 1920; // 堅牢な送信のための最大解像度設定
+
+  let selectedFiles = [];
+
   // ==========================================
-  // ファイル管理
+  // UIイベントバインディング
   // ==========================================
-  let selectedFiles = []; // 選択された全ファイルを保持
-
-  function handleFileChange(input) {
-    const newFiles = Array.from(input.files);
-    newFiles.forEach(f => {
-      // 重複チェック（同じファイル名は追加しない）
-      if (!selectedFiles.find(sf => sf.name === f.name && sf.size === f.size)) {
-        selectedFiles.push(f);
-      }
-    });
-    // input をリセット（同じファイルを再選択できるように）
-    input.value = "";
-    renderFilePreviews();
-  }
-
-  function removeFile(index) {
-    selectedFiles.splice(index, 1);
-    renderFilePreviews();
-  }
-
-  function renderFilePreviews() {
-    const list = document.getElementById('filePreviewList');
-    list.innerHTML = '';
-    selectedFiles.forEach((f, i) => {
-      const item = document.createElement('div');
-      item.className = 'file-preview-item';
-      item.innerHTML = `
-        <span>${f.name}</span>
-        <span class="remove-file" onclick="removeFile(${i})" title="削除">×</span>
-      `;
-      list.appendChild(item);
-    });
-  }
-
-  // ドラッグ＆ドロップ対応
+  const form = document.getElementById('entryForm');
+  const fileInput = document.getElementById('portfolio_images');
   const dropZone = document.getElementById('dropZone');
+  const closeBtn = document.getElementById('closeOverlayBtn');
+
+  form.addEventListener('submit', handleSubmit);
+  fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+  closeBtn.addEventListener('click', () => document.getElementById('successOverlay').classList.remove('show'));
+
+  // ドラッグ＆ドロップ制御
   dropZone.addEventListener('dragover', e => {
     e.preventDefault();
     dropZone.classList.add('dragover');
@@ -662,33 +467,115 @@
   dropZone.addEventListener('drop', e => {
     e.preventDefault();
     dropZone.classList.remove('dragover');
-    const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-    files.forEach(f => {
+    handleFiles(e.dataTransfer.files);
+  });
+
+  // ==========================================
+  // ファイル管理・リサイズ処理（堅牢化の要）
+  // ==========================================
+  function handleFiles(files) {
+    Array.from(files).forEach(f => {
+      if (!f.type.startsWith('image/')) {
+        alert(`${f.name} は画像ファイルではありません。`);
+        return;
+      }
+      if (f.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+        alert(`${f.name} はサイズが大きすぎます（最大${MAX_FILE_SIZE_MB}MB）。`);
+        return;
+      }
       if (!selectedFiles.find(sf => sf.name === f.name && sf.size === f.size)) {
         selectedFiles.push(f);
       }
     });
-    renderFilePreviews();
-  });
+    fileInput.value = ''; // 連続選択用リセット
+    renderPreviews();
+  }
+
+  function renderPreviews() {
+    const list = document.getElementById('filePreviewList');
+    list.innerHTML = '';
+    selectedFiles.forEach((f, i) => {
+      const item = document.createElement('div');
+      item.className = 'file-preview-item';
+      
+      const nameSpan = document.createElement('span');
+      nameSpan.textContent = f.name.length > 20 ? f.name.substring(0, 20) + '...' : f.name;
+      
+      const delBtn = document.createElement('span');
+      delBtn.className = 'remove-file';
+      delBtn.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      `;
+      delBtn.onclick = () => {
+        selectedFiles.splice(i, 1);
+        renderPreviews();
+      };
+
+      item.appendChild(nameSpan);
+      item.appendChild(delBtn);
+      list.appendChild(item);
+    });
+  }
+
+  // クライアントサイドでの画像圧縮（GASタイムアウト防止）
+  function compressImage(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+
+          // リサイズ計算
+          if (width > height) {
+            if (width > MAX_IMAGE_DIMENSION) {
+              height = Math.round(height *= MAX_IMAGE_DIMENSION / width);
+              width = MAX_IMAGE_DIMENSION;
+            }
+          } else {
+            if (height > MAX_IMAGE_DIMENSION) {
+              width = Math.round(width *= MAX_IMAGE_DIMENSION / height);
+              height = MAX_IMAGE_DIMENSION;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // JPEGで圧縮してBase64取得
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+          resolve({
+            name: file.name,
+            type: 'image/jpeg',
+            base64: dataUrl.split(',')[1]
+          });
+        };
+        img.onerror = () => reject(new Error('画像処理エラー'));
+        img.src = e.target.result;
+      };
+      reader.onerror = () => reject(new Error('ファイル読み込みエラー'));
+      reader.readAsDataURL(file);
+    });
+  }
 
   // ==========================================
-  // バリデーション
+  // バリデーションと送信
   // ==========================================
   function validateForm() {
     let valid = true;
-
-    const required = [
-      ['discord_id', 'err_discord_id'],
-      ['roblox_id',  'err_roblox_id'],
-      ['age',        'err_age'],
-      ['reason_apply', 'err_reason_apply'],
-      ['reason_other', 'err_reason_other'],
-      ['technical_strengths', 'err_technical'],
-      ['math_question', 'err_math'],
-      ['general_knowledge', 'err_common'],
+    const requiredIds = [
+      ['discord_id', 'err_discord_id'], ['roblox_id', 'err_roblox_id'], ['age', 'err_age'],
+      ['reason_apply', 'err_reason_apply'], ['reason_other', 'err_reason_other'],
+      ['technical_strengths', 'err_technical'], ['math_question', 'err_math'], ['general_knowledge', 'err_common']
     ];
 
-    required.forEach(([id, errId]) => {
+    requiredIds.forEach(([id, errId]) => {
       const el = document.getElementById(id);
       const err = document.getElementById(errId);
       if (!el.value.trim()) {
@@ -701,113 +588,82 @@
       }
     });
 
-    // ラジオボタン
     const studioChecked = document.querySelector('input[name="studio_exp"]:checked');
     const errStudio = document.getElementById('err_studio_exp');
-    if (!studioChecked) {
-      errStudio.classList.add('show');
-      valid = false;
-    } else {
-      errStudio.classList.remove('show');
-    }
+    if (!studioChecked) { errStudio.classList.add('show'); valid = false; }
+    else { errStudio.classList.remove('show'); }
 
-    // 画像
     const errPortfolio = document.getElementById('err_portfolio');
-    if (selectedFiles.length === 0) {
-      errPortfolio.classList.add('show');
-      valid = false;
-    } else {
-      errPortfolio.classList.remove('show');
-    }
+    if (selectedFiles.length === 0) { errPortfolio.classList.add('show'); valid = false; }
+    else { errPortfolio.classList.remove('show'); }
 
     return valid;
   }
 
-  // ==========================================
-  // 送信処理
-  // ==========================================
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwlAi4TZ_xlNaW02QNq9o5Ba9cvP8UcbP6vCFz0TdYCu4MRbtX_KaNYQz96sRsxOqZp/exec';
-
-  async function submitToGas() {
+  async function handleSubmit(e) {
+    e.preventDefault();
+    
     if (!validateForm()) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      // 最初のエラー欄までスクロール
       const firstError = document.querySelector('.error-msg.show');
-      if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (firstError) {
+        firstError.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
       return;
     }
 
     const btn = document.getElementById('submitBtn');
     const msg = document.getElementById('msg');
-
+    
     btn.disabled = true;
     btn.classList.add('loading');
     msg.className = '';
-    msg.innerText = '';
+    msg.style.display = 'none';
 
     try {
-      // 全画像をbase64に変換
-      const filesData = await Promise.all(selectedFiles.map(file => readFileAsBase64(file)));
+      // 全てCanvas経由でリサイズ＆Base64変換を行う
+      const processedImages = await Promise.all(selectedFiles.map(file => compressImage(file)));
 
-      const data = {
-        discord_id:           document.getElementById('discord_id').value.trim(),
-        roblox_id:            document.getElementById('roblox_id').value.trim(),
-        age:                  document.getElementById('age').value,
-        reason_apply:         document.getElementById('reason_apply').value.trim(),
-        reason_other:         document.getElementById('reason_other').value.trim(),
-        languages:            document.getElementById('languages').value.trim(),
-        studio_exp:           document.querySelector('input[name="studio_exp"]:checked').value,
-        technical_strengths:  document.getElementById('technical_strengths').value.trim(),
-        free_text:            document.getElementById('free_text').value.trim(),
-        math:                 document.getElementById('math_question').value.trim(),
-        common:               document.getElementById('general_knowledge').value.trim(),
-        // 複数画像に対応
-        images: filesData
+      const payload = {
+        discord_id: document.getElementById('discord_id').value.trim(),
+        roblox_id: document.getElementById('roblox_id').value.trim(),
+        age: document.getElementById('age').value,
+        reason_apply: document.getElementById('reason_apply').value.trim(),
+        reason_other: document.getElementById('reason_other').value.trim(),
+        languages: document.getElementById('languages').value.trim(),
+        studio_exp: document.querySelector('input[name="studio_exp"]:checked').value,
+        technical_strengths: document.getElementById('technical_strengths').value.trim(),
+        free_text: document.getElementById('free_text').value.trim(),
+        math: document.getElementById('math_question').value.trim(),
+        common: document.getElementById('general_knowledge').value.trim(),
+        images: processedImages
       };
 
       const res = await fetch(GAS_URL, {
         method: 'POST',
-        body: JSON.stringify(data)
+        // GAS側の仕様によっては 'text/plain' にしてプリフライトを回避する必要があります
+        body: JSON.stringify(payload)
       });
 
       const result = await res.json();
 
       if (result.status === 'success') {
-        // 成功
-        document.getElementById('entryForm').reset();
+        form.reset();
         selectedFiles = [];
-        renderFilePreviews();
+        renderPreviews();
         document.getElementById('successOverlay').classList.add('show');
       } else {
-        throw new Error(result.message || '不明なエラー');
+        throw new Error(result.message || 'サーバー側でエラーが発生しました');
       }
-
     } catch (err) {
       msg.className = 'error';
-      msg.innerText = `エラーが発生しました。時間をおいて再度お試しください。\n(${err.message})`;
+      msg.innerText = `送信に失敗しました。時間を置いて再度お試しください。\n(${err.message})`;
+      msg.style.display = 'block';
     } finally {
       btn.disabled = false;
       btn.classList.remove('loading');
     }
   }
-
-  // FileをBase64に変換するPromise
-  function readFileAsBase64(file) {
-    return new Promise((resolve, reject) => {
-      const fr = new FileReader();
-      fr.onload  = e => resolve({
-        base64: e.target.result.split(',')[1],
-        type: file.type,
-        name: file.name
-      });
-      fr.onerror = () => reject(new Error(`${file.name} の読み込みに失敗しました`));
-      fr.readAsDataURL(file);
-    });
-  }
-
-  function closeOverlay() {
-    document.getElementById('successOverlay').classList.remove('show');
-  }
+});
 </script>
 </body>
 </html>
