@@ -3,126 +3,754 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>九島交通局 採用ポータル</title>
+<title>九島交通局 エントリーシート</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap');
 
   :root {
-    --primary-color: #d90429;
-    --primary-hover: #ef233c;
-    --bg-color: #ffffff;
-    --text-main: #1a1a1e;
-    --text-sub: #6b7280;
-    --letter-spacing: 0.1em;
+    --brand-dark: #0a192f;
+    --brand-main: #112a46;
+    --brand-hover: #1d4370;
+    --accent-blue: #0066cc;
+    --bg-body: #f0f2f5;
+    --surface-white: #ffffff;
+    --text-main: #1f2937;
+    --text-muted: #6b7280;
+    --border-color: #d1d5db;
+    --error-bg: #fee2e2;
+    --error-text: #b91c1c;
+    --success-color: #059669;
+    --focus-ring: rgba(0, 102, 204, 0.25);
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --transition: all 0.25s ease;
   }
 
-  body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background-color: var(--bg-color);
-    font-family: 'Noto Sans JP', sans-serif;
+  body {
+    font-family: 'BIZ UDPGothic', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background-color: var(--bg-body);
     color: var(--text-main);
+    margin: 0;
+    padding: 3rem 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* 認証画面・状態オーバーレイ */
+  #authGuardScreen {
+    max-width: 600px;
+    margin: 4rem auto;
+    background: var(--surface-white);
+    border-radius: var(--radius-md);
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  #authGuardScreen.hidden { display: none; }
+  .auth-loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border-color);
+    border-top-color: var(--accent-blue);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 1.5rem;
+  }
+
+  .form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--surface-white);
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+    display: none; /* 初期状態では隠し、認証成功後に表示 */
+  }
+
+  .form-header {
+    background-image: 
+      linear-gradient(to bottom, rgba(10, 25, 47, 0.75), rgba(10, 25, 47, 0.95)), 
+      url('top.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #ffffff;
+    padding: 4.5rem 2rem;
+    text-align: center;
+    border-bottom: 4px solid var(--accent-blue);
+  }
+
+  .form-title {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .form-description {
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    margin: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .form-section {
+    padding: 2.5rem 3rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .form-section:last-of-type { border-bottom: none; }
+
+  .section-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0 0 2rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+    color: var(--brand-dark);
+    display: flex;
+    align-items: center;
+  }
+  .section-title::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 1.15rem;
+    background-color: var(--accent-blue);
+    margin-right: 0.75rem;
+    border-radius: 2px;
+  }
+
+  .form-group { margin-bottom: 2rem; }
+  .form-group:last-child { margin-bottom: 0; }
+
+  label {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--text-main);
+  }
+
+  .required {
+    background-color: var(--error-bg);
+    color: var(--error-text);
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    margin-left: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background-color: #f9fafb;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    box-sizing: border-box;
+    font-size: 1rem;
+    color: var(--text-main);
+    font-family: inherit;
+    transition: var(--transition);
+  }
+
+  input:hover, textarea:hover { border-color: #9ca3af; }
+  input:focus, textarea:focus {
+    outline: none;
+    background-color: var(--surface-white);
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px var(--focus-ring);
+  }
+
+  input.error, textarea.error {
+    border-color: var(--error-text);
+    background-color: var(--error-bg);
+  }
+
+  .error-msg {
+    color: var(--error-text);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: none;
+    font-weight: 700;
+  }
+  .error-msg.show { display: block; }
+
+  textarea { resize: vertical; min-height: 140px; }
+
+  .radio-group { display: flex; gap: 2rem; margin-top: 0.5rem; }
+  .radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 1rem;
+  }
+  .radio-label input {
+    margin-right: 0.5rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--accent-blue);
+  }
+
+  .file-upload-area {
+    border: 2px dashed var(--border-color);
+    background-color: #f9fafb;
+    padding: 2.5rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    position: relative;
+    transition: var(--transition);
+  }
+  .file-upload-area:hover, .file-upload-area.dragover {
+    background-color: #f0f5fa;
+    border-color: var(--accent-blue);
+  }
+  .file-upload-area input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  .file-icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 0.75rem;
+    fill: var(--text-muted);
+    transition: var(--transition);
+  }
+  .file-upload-area:hover .file-icon { fill: var(--accent-blue); }
+
+  .file-upload-text {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .file-upload-text small {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    color: #9ca3af;
+  }
+
+  .file-preview-list {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .file-preview-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface-white);
+    border: 1px solid var(--border-color);
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+
+  .remove-file {
+    cursor: pointer;
+    color: #9ca3af;
+    padding: 0.2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* スッキリ見せるためスクロール無効 */
+    border-radius: 4px;
+    transition: var(--transition);
+  }
+  .remove-file:hover { 
+    color: var(--error-text);
+    background-color: var(--error-bg);
   }
 
-  /* 装飾用の細い赤ライン（フォームのデザインと統一） */
-  .top-line {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 6px;
-    background: var(--primary-color);
-  }
-
-  .main-container {
+  .submit-section {
+    padding: 2.5rem;
+    background-color: #f8fafc;
     text-align: center;
-    padding: 20px;
-    animation: fadeIn 1.2s ease-out;
+    border-top: 1px solid #e5e7eb;
   }
 
-  .logo-text {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--primary-color);
-    letter-spacing: var(--letter-spacing);
-    margin-bottom: 8px;
-    display: block;
-  }
-
-  .title {
-    font-size: 32px;
+  .submit-btn {
+    background-color: var(--brand-main);
+    color: white;
+    border: none;
+    padding: 1rem 3rem;
+    font-size: 1.05rem;
     font-weight: 700;
-    margin: 0 0 40px 0;
     letter-spacing: 0.05em;
-    color: var(--text-main);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+    max-width: 320px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(17, 42, 70, 0.2);
   }
-
-  /* スタートボタン */
-  .start-btn {
-    position: relative;
-    display: inline-block;
-    background-color: var(--primary-color);
-    color: #ffffff;
-    text-decoration: none;
-    padding: 20px 80px;
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    border-radius: 40px;
-    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    box-shadow: 0 10px 20px rgba(217, 4, 41, 0.15);
-  }
-
-  .start-btn:hover {
-    background-color: var(--primary-hover);
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(217, 4, 41, 0.25);
-    padding: 20px 100px; /* 横に少し広がるアニメーション */
-  }
-
-  .start-btn:active {
+  .submit-btn:hover:not(:disabled) { 
+    background-color: var(--brand-hover); 
     transform: translateY(-1px);
+    box-shadow: 0 6px 8px -1px rgba(17, 42, 70, 0.3);
+  }
+  .submit-btn:active:not(:disabled) { transform: translateY(0); }
+  .submit-btn:disabled {
+    background-color: #9ca3af;
+    box-shadow: none;
+    cursor: not-allowed;
   }
 
-  /* 下部の控えめなテキスト */
-  .footer-copy {
+  .spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: none;
+  }
+  .submit-btn.loading .spinner { display: block; }
+  .submit-btn.loading .btn-text { display: none; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  #msg {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    display: none;
+    font-weight: 700;
+  }
+  #msg.error {
+    display: block;
+    background: var(--error-bg);
+    color: var(--error-text);
+    border: 1px solid rgba(185, 28, 28, 0.2);
+  }
+
+  #successOverlay {
+    display: none;
     position: fixed;
-    bottom: 30px;
-    font-size: 11px;
-    color: #9ca3af;
-    letter-spacing: 0.1em;
+    inset: 0;
+    background: rgba(10, 25, 47, 0.85);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+  #successOverlay.show { display: flex; opacity: 1; }
+  
+  .success-card {
+    background: var(--surface-white);
+    border-radius: var(--radius-md);
+    padding: 3rem 2.5rem;
+    text-align: center;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    transform: translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
+  #successOverlay.show .success-card { transform: translateY(0); }
 
-  /* スマホ対応 */
-  @media (max-width: 480px) {
-    .title { font-size: 24px; }
-    .start-btn { padding: 18px 60px; font-size: 14px; }
-    .start-btn:hover { padding: 18px 70px; }
+  .success-svg {
+    width: 56px;
+    height: 56px;
+    fill: var(--success-color);
+    margin: 0 auto 1.5rem;
+  }
+  .success-card h2 { margin: 0 0 1rem; font-size: 1.4rem; color: var(--brand-dark); }
+  .success-card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2.5rem; line-height: 1.6; }
+  .success-card button {
+    background: var(--brand-main);
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .success-card button:hover { background: var(--brand-hover); }
+
+  @media (max-width: 600px) {
+    .form-section { padding: 2rem 1.5rem; }
+    .submit-section { padding: 2rem 1.5rem; }
+    .form-header { padding: 3rem 1.5rem; }
+    .form-title { font-size: 1.5rem; }
   }
 </style>
 </head>
 <body>
 
-  <div class="top-line"></div>
+<!-- Access Guard (検証中・認証エラー表示領域) -->
+<div id="authGuardScreen">
+  <div class="auth-loading-spinner" id="authSpinner"></div>
+  <h2 id="authTitle" style="margin: 0 0 0.5rem; color: var(--brand-dark);">アクセス権限を確認中...</h2>
+  <p id="authMsg" style="color: var(--text-muted); margin: 0;">しばらくお待ちください。</p>
+</div>
 
-  <div class="main-container">
-    <span class="logo-text">九島交通局</span>
-    <h1 class="title">社員採用試験</h1>
-    
-    <a href="form-kushima0009.html" class="start-btn">開始</a>
+<!-- 送信完了ポップアップ -->
+<div id="successOverlay">
+  <div class="success-card">
+    <svg class="success-svg" viewBox="0 0 24 24">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    </svg>
+    <h2>送信が完了しました</h2>
+    <p>エントリーシートを受け付けました。<br>書類選考の上、Discordにてご連絡いたします。</p>
+    <button id="closeOverlayBtn">閉じる</button>
+  </div>
+</div>
+
+<!-- メインフォーム -->
+<form class="form-container" id="entryForm">
+  <div class="form-header">
+    <h1 class="form-title">九島交通局 開発メンバー エントリーシート</h1>
+    <p class="form-description">以下のフォームに必要事項を入力し、送信してください。</p>
   </div>
 
-  <div class="footer-copy">© 九島交通局 採用担当</div>
+  <div class="form-section">
+    <h2 class="section-title">基本情報</h2>
+    <div class="form-group">
+      <label for="discord_id">Discord ID <span class="required">必須</span></label>
+      <input type="text" id="discord_id" placeholder="例: username">
+      <span class="error-msg" id="err_discord_id">Discord IDを入力してください</span>
+    </div>
+    <div class="form-group">
+      <label for="roblox_id">Roblox ID <span class="required">必須</span></label>
+      <input type="text" id="roblox_id" placeholder="例: RobloxPlayer123">
+      <span class="error-msg" id="err_roblox_id">Roblox IDを入力してください</span>
+    </div>
+    <div class="form-group">
+      <label for="age">年齢 <span class="required">必須</span></label>
+      <input type="number" id="age" min="10" max="100" placeholder="例: 18">
+      <span class="error-msg" id="err_age">年齢を入力してください</span>
+    </div>
+  </div>
 
+  <div class="form-section">
+    <h2 class="section-title">志望動機</h2>
+    <div class="form-group">
+      <label for="reason_apply">九島交通局に応募した理由 <span class="required">必須</span></label>
+      <textarea id="reason_apply" placeholder="具体的な理由を記載してください"></textarea>
+      <span class="error-msg" id="err_reason_apply">志望動機を入力してください</span>
+    </div>
+    <div class="form-group">
+      <label for="reason_other">当グループを選ぶ理由 <span class="required">必須</span></label>
+      <textarea id="reason_other" placeholder="他のプロジェクトとの違いや、当グループである必要性を記載してください"></textarea>
+      <span class="error-msg" id="err_reason_other">理由を入力してください</span>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h2 class="section-title">スキル・実績</h2>
+    <div class="form-group">
+      <label for="languages">使用可能な技術（言語・ツール）</label>
+      <input type="text" id="languages" placeholder="例: Luau, Python, Blender など">
+    </div>
+    <div class="form-group">
+      <label>RobloxStudioの経験 <span class="required">必須</span></label>
+      <div class="radio-group">
+        <label class="radio-label"><input type="radio" name="studio_exp" value="yes"> あり</label>
+        <label class="radio-label"><input type="radio" name="studio_exp" value="no"> なし</label>
+      </div>
+      <span class="error-msg" id="err_studio_exp">選択してください</span>
+    </div>
+    <div class="form-group">
+      <label>ポートフォリオ画像 <span class="required">必須</span></label>
+      <div class="file-upload-area" id="dropZone">
+        <input type="file" id="portfolio_images" accept="image/*" multiple>
+        <svg class="file-icon" viewBox="0 0 24 24">
+          <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.36 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
+        </svg>
+        <div class="file-upload-text">クリックして画像を選択、またはドロップ<br><small>(複数選択可 / 1枚あたり最大5MB)</small></div>
+      </div>
+      <div class="file-preview-list" id="filePreviewList"></div>
+      <span class="error-msg" id="err_portfolio">画像を1枚以上アップロードしてください</span>
+    </div>
+    <div class="form-group">
+      <label for="technical_strengths">技術的な強み <span class="required">必須</span></label>
+      <textarea id="technical_strengths" placeholder="モデリング、UIデザイン、スクリプト構築など、アピールポイントを記載してください"></textarea>
+      <span class="error-msg" id="err_technical">技術面での強みを入力してください</span>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h2 class="section-title">自由記述</h2>
+    <div class="form-group">
+      <label for="free_text">備考・アピールポイント</label>
+      <textarea id="free_text" placeholder="意気込みや質問があればご記入ください"></textarea>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h2 class="section-title">基礎確認テスト</h2>
+    <div class="form-group">
+      <label for="math_question">数学: [ここに問題文を記載] <span class="required">必須</span></label>
+      <input type="text" id="math_question" placeholder="回答を入力">
+      <span class="error-msg" id="err_math">回答を入力してください</span>
+    </div>
+    <div class="form-group">
+      <label for="general_knowledge">一般常識: [ここに問題文を記載] <span class="required">必須</span></label>
+      <input type="text" id="general_knowledge" placeholder="回答を入力">
+      <span class="error-msg" id="err_common">回答を入力してください</span>
+    </div>
+  </div>
+
+  <div class="submit-section">
+    <button type="submit" id="submitBtn" class="submit-btn">
+      <div class="spinner"></div>
+      <span class="btn-text">エントリーシートを送信</span>
+    </button>
+    <div id="msg"></div>
+  </div>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwlAi4TZ_xlNaW02QNq9o5Ba9cvP8UcbP6vCFz0TdYCu4MRbtX_KaNYQz96sRsxOqZp/exec';
+  const MAX_FILE_SIZE_MB = 5;
+  const MAX_IMAGE_DIMENSION = 1920; 
+
+  let selectedFiles = [];
+  let currentToken = '';
+
+  const form = document.getElementById('entryForm');
+  const fileInput = document.getElementById('portfolio_images');
+  const dropZone = document.getElementById('dropZone');
+  const closeBtn = document.getElementById('closeOverlayBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const msg = document.getElementById('msg');
+
+  const authGuardScreen = document.getElementById('authGuardScreen');
+  const authSpinner = document.getElementById('authSpinner');
+  const authTitle = document.getElementById('authTitle');
+  const authMsg = document.getElementById('authMsg');
+
+  // --- 1. ワンタイムトークンの検証機能 ---
+  const urlParams = new URLSearchParams(window.location.search);
+  currentToken = urlParams.get('token');
+
+  if (!currentToken) {
+    showAuthError('アクセス権限がありません', 'エントリーにはDiscordから配布された専用URLが必要です。');
+    return;
+  }
+
+  try {
+    const res = await fetch(`${GAS_URL}?token=${encodeURIComponent(currentToken)}`);
+    const data = await res.json();
+
+    if (data.valid) {
+      // 認証成功時：保護画面を隠してフォームを表示
+      authGuardScreen.classList.add('hidden');
+      form.style.display = 'block';
+    } else {
+      showAuthError('無効なURLです', data.reason || 'このURLは既に送信済みか、有効ではありません。');
+    }
+  } catch (e) {
+    showAuthError('通信エラー', 'アクセストークンの検証に失敗しました。接続を確認してください。');
+  }
+
+  function showAuthError(title, message) {
+    authSpinner.style.display = 'none';
+    authTitle.style.color = 'var(--error-text)';
+    authTitle.innerText = title;
+    authMsg.innerText = message;
+  }
+
+  // --- イベント設定 ---
+  form.addEventListener('submit', handleSubmit);
+  fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+  closeBtn.addEventListener('click', () => {
+    document.getElementById('successOverlay').classList.remove('show');
+    // 送信完了後はページをリロードして無効画面を表示
+    window.location.reload();
+  });
+
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    handleFiles(e.dataTransfer.files);
+  });
+
+  function handleFiles(files) {
+    Array.from(files).forEach(f => {
+      if (!f.type.startsWith('image/')) { alert(`${f.name} は画像ではありません。`); return; }
+      if (f.size > MAX_FILE_SIZE_MB * 1024 * 1024) { alert(`${f.name} はサイズが大きすぎます。`); return; }
+      if (!selectedFiles.find(sf => sf.name === f.name && sf.size === f.size)) {
+        selectedFiles.push(f);
+      }
+    });
+    fileInput.value = ''; 
+    renderPreviews();
+  }
+
+  function renderPreviews() {
+    const list = document.getElementById('filePreviewList');
+    list.innerHTML = '';
+    selectedFiles.forEach((f, i) => {
+      const item = document.createElement('div');
+      item.className = 'file-preview-item';
+      
+      const nameSpan = document.createElement('span');
+      nameSpan.textContent = f.name.length > 20 ? f.name.substring(0, 20) + '...' : f.name;
+      
+      const delBtn = document.createElement('span');
+      delBtn.className = 'remove-file';
+      delBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>`;
+      delBtn.onclick = () => {
+        selectedFiles.splice(i, 1);
+        renderPreviews();
+      };
+
+      item.appendChild(nameSpan);
+      item.appendChild(delBtn);
+      list.appendChild(item);
+    });
+  }
+
+  function compressImage(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          let width = img.width, height = img.height;
+          if (width > height) {
+            if (width > MAX_IMAGE_DIMENSION) { height = Math.round(height * MAX_IMAGE_DIMENSION / width); width = MAX_IMAGE_DIMENSION; }
+          } else {
+            if (height > MAX_IMAGE_DIMENSION) { width = Math.round(width * MAX_IMAGE_DIMENSION / height); height = MAX_IMAGE_DIMENSION; }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width; canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          resolve({
+            name: file.name,
+            type: 'image/jpeg',
+            base64: canvas.toDataURL('image/jpeg', 0.8).split(',')[1]
+          });
+        };
+        img.onerror = () => reject(new Error('画像処理エラー'));
+        img.src = e.target.result;
+      };
+      reader.onerror = () => reject(new Error('ファイル読み込みエラー'));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function validateForm() {
+    let valid = true;
+    const requiredIds = [
+      ['discord_id', 'err_discord_id'], ['roblox_id', 'err_roblox_id'], ['age', 'err_age'],
+      ['reason_apply', 'err_reason_apply'], ['reason_other', 'err_reason_other'],
+      ['technical_strengths', 'err_technical'], ['math_question', 'err_math'], ['general_knowledge', 'err_common']
+    ];
+
+    requiredIds.forEach(([id, errId]) => {
+      const el = document.getElementById(id);
+      const err = document.getElementById(errId);
+      if (!el.value.trim()) {
+        el.classList.add('error');
+        err.classList.add('show');
+        valid = false;
+      } else {
+        el.classList.remove('error');
+        err.classList.remove('show');
+      }
+    });
+
+    const studioChecked = document.querySelector('input[name="studio_exp"]:checked');
+    const errStudio = document.getElementById('err_studio_exp');
+    if (!studioChecked) { errStudio.classList.add('show'); valid = false; }
+    else { errStudio.classList.remove('show'); }
+
+    const errPortfolio = document.getElementById('err_portfolio');
+    if (selectedFiles.length === 0) { errPortfolio.classList.add('show'); valid = false; }
+    else { errPortfolio.classList.remove('show'); }
+
+    return valid;
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      const firstError = document.querySelector('.error-msg.show');
+      if (firstError) firstError.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+    msg.className = '';
+    msg.style.display = 'none';
+
+    try {
+      const processedImages = await Promise.all(selectedFiles.map(file => compressImage(file)));
+
+      const payload = {
+        token: currentToken, // ★ トークンをGASへ送信
+        discord_id: document.getElementById('discord_id').value.trim(),
+        roblox_id: document.getElementById('roblox_id').value.trim(),
+        age: document.getElementById('age').value,
+        reason_apply: document.getElementById('reason_apply').value.trim(),
+        reason_other: document.getElementById('reason_other').value.trim(),
+        languages: document.getElementById('languages').value.trim(),
+        studio_exp: document.querySelector('input[name="studio_exp"]:checked').value,
+        technical_strengths: document.getElementById('technical_strengths').value.trim(),
+        free_text: document.getElementById('free_text').value.trim(),
+        math: document.getElementById('math_question').value.trim(),
+        common: document.getElementById('general_knowledge').value.trim(),
+        images: processedImages
+      };
+
+      const res = await fetch(GAS_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+
+      const result = await res.json();
+
+      if (result.status === 'success') {
+        form.reset();
+        selectedFiles = [];
+        renderPreviews();
+        document.getElementById('successOverlay').classList.add('show');
+      } else {
+        throw new Error(result.message || 'サーバーエラーが発生しました');
+      }
+    } catch (err) {
+      msg.className = 'error';
+      msg.innerText = `送信に失敗しました。\n(${err.message})`;
+      msg.style.display = 'block';
+      submitBtn.disabled = false;
+    } finally {
+      submitBtn.classList.remove('loading');
+    }
+  }
+});
+</script>
 </body>
 </html>
