@@ -527,11 +527,11 @@
 </form>
 
 <script>
-// JS部分は元のまま維持（ロジックの変更はありません）
 document.addEventListener('DOMContentLoaded', () => {
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbwlAi4TZ_xlNaW02QNq9o5Ba9cvP8UcbP6vCFz0TdYCu4MRbtX_KaNYQz96sRsxOqZp/exec';
   const MAX_FILE_SIZE_MB = 5;
   const MAX_IMAGE_DIMENSION = 1920; 
+  const LIMIT_HOURS = 24; // 送信制限時間（時間）
 
   let selectedFiles = [];
 
@@ -539,6 +539,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const fileInput = document.getElementById('portfolio_images');
   const dropZone = document.getElementById('dropZone');
   const closeBtn = document.getElementById('closeOverlayBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const msg = document.getElementById('msg');
+
+  // --- 1日1回送信制限のチェック処理 ---
+  function getRemainingRestriction() {
+    const lastSubmitTime = localStorage.getItem('last_success_submit_time');
+    if (!lastSubmitTime) return 0;
+
+    const elapsedMs = Date.now() - parseInt(lastSubmitTime, 10);
+    const limitMs = LIMIT_HOURS * 60 * 60 * 1000;
+    
+    if (elapsedMs < limitMs) {
+      return Math.ceil((limitMs - elapsedMs) / (1000 * 60 * 60)); // 残り時間を切り上げ計算
+    }
+    return 0;
+  }
+
+  function applySubmissionLimitUI() {
+    const hoursLeft = getRemainingRestriction();
+    if (hoursLeft > 0) {
+      msg.className = 'error';
+      msg.innerText = `本日分のエントリーシートは送信済みです。\n次の送信まで約 ${hoursLeft} 時間お待ちください。`;
+      msg.style.display = 'block';
+      submitBtn.disabled = true;
+      return true;
+    }
+    return false;
+  }
+
+  // 初期ロード時に制限チェック
+  applySubmissionLimitUI();
 
   form.addEventListener('submit', handleSubmit);
   fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
@@ -678,6 +709,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    // 送信直前に制限を判定
+    if (applySubmissionLimitUI()) return;
     
     if (!validateForm()) {
       const firstError = document.querySelector('.error-msg.show');
@@ -687,11 +721,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const btn = document.getElementById('submitBtn');
-    const msg = document.getElementById('msg');
-    
-    btn.disabled = true;
-    btn.classList.add('loading');
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
     msg.className = '';
     msg.style.display = 'none';
 
@@ -721,20 +752,27 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await res.json();
 
       if (result.status === 'success') {
+        // ★ 成功時のみタイムスタンプを保存してロックを有効化 ★
+        localStorage.setItem('last_success_submit_time', Date.now().toString());
+
         form.reset();
         selectedFiles = [];
         renderPreviews();
         document.getElementById('successOverlay').classList.add('show');
+        
+        // UI制限を即時反映
+        applySubmissionLimitUI();
       } else {
         throw new Error(result.message || 'サーバー側でエラーが発生しました');
       }
     } catch (err) {
+      // エラー時は localStorage に記憶されないため、修正後にそのまま再試行が可能です
       msg.className = 'error';
       msg.innerText = `送信に失敗しました。時間を置いて再度お試しください。\n(${err.message})`;
       msg.style.display = 'block';
+      submitBtn.disabled = false;
     } finally {
-      btn.disabled = false;
-      btn.classList.remove('loading');
+      submitBtn.classList.remove('loading');
     }
   }
 });
