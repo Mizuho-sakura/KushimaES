@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="icon.png">
 <title>九島交通局 エントリーシート</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap');
@@ -25,34 +26,32 @@
     --radius-md: 6px;
     --transition: all 0.25s ease;
   }
-body {
-  font-family: 'BIZ UDPGothic', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  background-color: var(--bg-body);
-  color: var(--text-main);
-  margin: 0;
-  padding: 3rem 1rem;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  position: relative; /* 背景レイヤーの位置基準 */
-  min-height: 100vh;
-}
-
-/* ぼかし背景用の疑似要素を追加 */
-body::before {
-  content: '';
-  position: fixed;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
-  z-index: -1; /* コンテンツの後ろに配置 */
-  background-image: url('back.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  filter: blur(8px); /* ぼかしの強さ（数値を大きくするとよりぼやけます） */
-  opacity: 0.6;      /* 好みに合わせて背景の濃さを調整（0.0 〜 1.0） */
-}
+  body {
+    font-family: 'BIZ UDPGothic', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    margin: 0;
+    padding: 3rem 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    position: relative; /* 背景レイヤーの位置基準 */
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    z-index: -1;
+    background-image: url('back.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(8px); 
+    opacity: 0.6; 
+  }
   /* 認証画面・状態オーバーレイ */
   #authGuardScreen {
     max-width: 600px;
