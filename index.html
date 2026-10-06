@@ -548,6 +548,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   let selectedFiles = [];
   let currentToken = '';
+  let isSubmitting = false; // ★ 二重送信防止フラグ
 
   const form = document.getElementById('entryForm');
   const fileInput = document.getElementById('portfolio_images');
@@ -662,10 +663,11 @@ document.addEventListener('DOMContentLoaded', async () => {
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, width, height);
 
+          // 解像度・画質を落として軽量化（圧縮率 0.75）
           resolve({
             name: file.name,
             type: 'image/jpeg',
-            base64: canvas.toDataURL('image/jpeg', 0.8).split(',')[1]
+            base64: canvas.toDataURL('image/jpeg', 0.75).split(',')[1]
           });
         };
         img.onerror = () => reject(new Error('画像処理エラー'));
@@ -687,24 +689,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     requiredIds.forEach(([id, errId]) => {
       const el = document.getElementById(id);
       const err = document.getElementById(errId);
-      if (!el.value.trim()) {
-        el.classList.add('error');
-        err.classList.add('show');
+      if (!el || !el.value.trim()) {
+        if (el) el.classList.add('error');
+        if (err) err.classList.add('show');
         valid = false;
       } else {
         el.classList.remove('error');
-        err.classList.remove('show');
+        if (err) err.classList.remove('show');
       }
     });
 
     const studioChecked = document.querySelector('input[name="studio_exp"]:checked');
     const errStudio = document.getElementById('err_studio_exp');
-    if (!studioChecked) { errStudio.classList.add('show'); valid = false; }
-    else { errStudio.classList.remove('show'); }
+    if (!studioChecked) { if (errStudio) errStudio.classList.add('show'); valid = false; }
+    else { if (errStudio) errStudio.classList.remove('show'); }
 
     const errPortfolio = document.getElementById('err_portfolio');
-    if (selectedFiles.length === 0) { errPortfolio.classList.add('show'); valid = false; }
-    else { errPortfolio.classList.remove('show'); }
+    if (selectedFiles.length === 0) { if (errPortfolio) errPortfolio.classList.add('show'); valid = false; }
+    else { if (errPortfolio) errPortfolio.classList.remove('show'); }
 
     return valid;
   }
@@ -712,22 +714,31 @@ document.addEventListener('DOMContentLoaded', async () => {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    // 既に送信処理中の場合は処理を中断
+    if (isSubmitting) return;
+
     if (!validateForm()) {
       const firstError = document.querySelector('.error-msg.show');
       if (firstError) firstError.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
 
+    // フラグ更新と UI の無効化
+    isSubmitting = true;
     submitBtn.disabled = true;
     submitBtn.classList.add('loading');
+    const originalBtnText = submitBtn.innerText;
+    submitBtn.innerText = '送信処理中...';
+    
     msg.className = '';
     msg.style.display = 'none';
 
     try {
+      // 画像圧縮の並列実行
       const processedImages = await Promise.all(selectedFiles.map(file => compressImage(file)));
 
       const payload = {
-        token: currentToken, // ★ トークンをGASへ送信
+        token: currentToken,
         discord_id: document.getElementById('discord_id').value.trim(),
         roblox_id: document.getElementById('roblox_id').value.trim(),
         age: document.getElementById('age').value,
@@ -742,10 +753,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         images: processedImages
       };
 
+      // GAS へのリクエスト発行（GASのリダイレクトとCORSに対応）
       const res = await fetch(GAS_URL, {
         method: 'POST',
-        body: JSON.stringify(payload)
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8' // GASのdoPostでパースエラーを起こさない基本ヘッダー
+        },
+        body: JSON.stringify(payload),
+        redirect: 'follow'
       });
+
+      if (!res.ok) {
+        throw new Error(`サーバーレスポンスエラー (${res.status})`);
+      }
 
       const result = await res.json();
 
@@ -755,13 +775,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderPreviews();
         document.getElementById('successOverlay').classList.add('show');
       } else {
-        throw new Error(result.message || 'サーバーエラーが発生しました');
+        throw new Error(result.message || '処理に失敗しました。');
       }
     } catch (err) {
       msg.className = 'error';
-      msg.innerText = `送信に失敗しました。\n(${err.message})`;
+      msg.innerText = `送信エラー: ${err.message}`;
       msg.style.display = 'block';
+      
+      // エラー発生時のみボタンを再有効化
       submitBtn.disabled = false;
+      submitBtn.innerText = originalBtnText;
+      isSubmitting = false;
     } finally {
       submitBtn.classList.remove('loading');
     }
