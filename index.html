@@ -791,6 +791,40 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 });
+    // --- フォームデータのローカル保存機能 ---
+  const storageKey = 'entryFormData';
+  
+  // 保存する処理
+  function saveFormData() {
+    const formData = {
+      discord_id: document.getElementById('discord_id').value,
+      roblox_id: document.getElementById('roblox_id').value,
+      age: document.getElementById('age').value,
+      reason_apply: document.getElementById('reason_apply').value,
+      // ...他のテキスト項目も同様に...
+    };
+    localStorage.setItem(storageKey, JSON.stringify(formData));
+  }
+  
+  // フォームの各入力欄にイベントリスナーを追加
+  const textInputs = form.querySelectorAll('input[type="text"], input[type="number"], textarea');
+  textInputs.forEach(input => {
+    input.addEventListener('input', saveFormData);
+  });
+  
+  // ページ読み込み時に復元する処理（DOMContentLoaded内に配置）
+  const savedData = localStorage.getItem(storageKey);
+  if (savedData) {
+    try {
+      const parsedData = JSON.parse(savedData);
+      Object.keys(parsedData).forEach(key => {
+        const el = document.getElementById(key);
+        if (el) el.value = parsedData[key];
+      });
+    } catch (e) {
+      console.error("データの復元に失敗しました", e);
+    }
+  }
 </script>
 </body>
 </html>
