@@ -8,6 +8,7 @@
   <title>九島交通局 エントリーシート</title>
 </head>
 <body>
+  <!-- アクセス権限確認画面 -->
   <div id="authGuardScreen">
     <div class="auth-loading-spinner" id="authSpinner"></div>
     <h2 id="authTitle" style="margin: 0 0 0.5rem; color: var(--brand-dark);">アクセス権限を確認中...</h2>
@@ -37,17 +38,17 @@
       <h2 class="section-title">基本情報</h2>
       <div class="form-group">
         <label for="discord_id">Discord ID <span class="required">必須</span></label>
-        <input type="text" id="discord_id" placeholder="例: username">
+        <input type="text" id="discord_id" name="discord_id" placeholder="例: username" data-err="err_discord_id" required>
         <span class="error-msg" id="err_discord_id">Discord IDを入力してください</span>
       </div>
       <div class="form-group">
         <label for="roblox_id">Roblox ID <span class="required">必須</span></label>
-        <input type="text" id="roblox_id" placeholder="例: RobloxPlayer123">
+        <input type="text" id="roblox_id" name="roblox_id" placeholder="例: RobloxPlayer123" data-err="err_roblox_id" required>
         <span class="error-msg" id="err_roblox_id">Roblox IDを入力してください</span>
       </div>
       <div class="form-group">
         <label for="age">年齢 <span class="required">必須</span></label>
-        <input type="number" id="age" min="10" max="100" placeholder="例: 18">
+        <input type="number" id="age" name="age" min="10" max="100" placeholder="例: 18" data-err="err_age" required>
         <span class="error-msg" id="err_age">年齢を入力してください</span>
       </div>
     </div>
@@ -56,12 +57,12 @@
       <h2 class="section-title">志望動機</h2>
       <div class="form-group">
         <label for="reason_apply">九島交通局に応募した理由 <span class="required">必須</span></label>
-        <textarea id="reason_apply" placeholder="具体的な理由を記載してください"></textarea>
+        <textarea id="reason_apply" name="reason_apply" placeholder="具体的な理由を記載してください" data-err="err_reason_apply" required></textarea>
         <span class="error-msg" id="err_reason_apply">志望動機を入力してください</span>
       </div>
       <div class="form-group">
         <label for="reason_other">当グループを選ぶ理由 <span class="required">必須</span></label>
-        <textarea id="reason_other" placeholder="他のプロジェクトとの違いや、当グループである必要性を記載してください"></textarea>
+        <textarea id="reason_other" name="reason_other" placeholder="他のプロジェクトとの違いや、当グループである必要性を記載してください" data-err="err_reason_other" required></textarea>
         <span class="error-msg" id="err_reason_other">理由を入力してください</span>
       </div>
     </div>
@@ -70,12 +71,12 @@
       <h2 class="section-title">スキル・実績</h2>
       <div class="form-group">
         <label for="languages">使用可能な技術（言語・ツール）</label>
-        <input type="text" id="languages" placeholder="例: Luau, Python, Blender など">
+        <input type="text" id="languages" name="languages" placeholder="例: Luau, Python, Blender など">
       </div>
       <div class="form-group">
         <label>RobloxStudioの経験 <span class="required">必須</span></label>
         <div class="radio-group">
-          <label class="radio-label"><input type="radio" name="studio_exp" value="yes"> あり</label>
+          <label class="radio-label"><input type="radio" name="studio_exp" value="yes" data-err="err_studio_exp" required> あり</label>
           <label class="radio-label"><input type="radio" name="studio_exp" value="no"> なし</label>
         </div>
         <span class="error-msg" id="err_studio_exp">選択してください</span>
@@ -94,7 +95,7 @@
       </div>
       <div class="form-group">
         <label for="technical_strengths">技術的な強み <span class="required">必須</span></label>
-        <textarea id="technical_strengths" placeholder="モデリング、UIデザイン、スクリプト構築など、アピールポイントを記載してください"></textarea>
+        <textarea id="technical_strengths" name="technical_strengths" placeholder="モデリング、UIデザイン、スクリプト構築など、アピールポイントを記載してください" data-err="err_technical" required></textarea>
         <span class="error-msg" id="err_technical">技術面での強みを入力してください</span>
       </div>
     </div>
@@ -103,7 +104,7 @@
       <h2 class="section-title">自由記述</h2>
       <div class="form-group">
         <label for="free_text">備考・アピールポイント</label>
-        <textarea id="free_text" placeholder="意気込みや質問があればご記入ください"></textarea>
+        <textarea id="free_text" name="free_text" placeholder="意気込みや質問があればご記入ください"></textarea>
       </div>
     </div>
   
@@ -111,12 +112,12 @@
       <h2 class="section-title">基礎確認テスト</h2>
       <div class="form-group">
         <label for="math_question">数学: [ここに問題文を記載] <span class="required">必須</span></label>
-        <input type="text" id="math_question" placeholder="回答を入力">
+        <input type="text" id="math_question" name="math" placeholder="回答を入力" data-err="err_math" required>
         <span class="error-msg" id="err_math">回答を入力してください</span>
       </div>
       <div class="form-group">
         <label for="general_knowledge">一般常識: [ここに問題文を記載] <span class="required">必須</span></label>
-        <input type="text" id="general_knowledge" placeholder="回答を入力">
+        <input type="text" id="general_knowledge" name="common" placeholder="回答を入力" data-err="err_common" required>
         <span class="error-msg" id="err_common">回答を入力してください</span>
       </div>
     </div>
@@ -130,33 +131,12 @@
     </div>
   </form>
 
-
   <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // --- 設定値 ---
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbw0RF8h_0pvRVyI1vo4WXoELezVNLAXLxtCfMGqG1NVgIGOXmquPqwKln5AihJ8DFzI/exec';
   const MAX_FILE_SIZE_MB = 5;
   const MAX_IMAGE_DIMENSION = 1920;
   const STORAGE_KEY = 'kushima_es_draft_v1';
-
-  // --- 必須入力項目の定義 [要素ID, エラー表示ID] ---
-  const REQUIRED_FIELDS = [
-    ['discord_id', 'err_discord_id'],
-    ['roblox_id', 'err_roblox_id'],
-    ['age', 'err_age'],
-    ['reason_apply', 'err_reason_apply'],
-    ['reason_other', 'err_reason_other'],
-    ['technical_strengths', 'err_technical'],
-    ['math_question', 'err_math'],
-    ['general_knowledge', 'err_common']
-  ];
-
-  // --- 自動保存するテキスト項目IDの一覧 ---
-  const AUTO_SAVE_FIELDS = [
-    'discord_id', 'roblox_id', 'age', 'reason_apply',
-    'reason_other', 'languages', 'technical_strengths',
-    'free_text', 'math_question', 'general_knowledge'
-  ];
 
   // --- DOM要素 ---
   const form = document.getElementById('entryForm');
@@ -177,16 +157,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentToken = '';
   let isSubmitting = false;
 
-  // --------------------------------------------------
-  // 1. 初期化処理
-  // --------------------------------------------------
+  // 1. 初期化
   initTokenAuth();
   restoreFormData();
   setupEventListeners();
 
-  // --------------------------------------------------
-  // 2. アクセストークン検証
-  // --------------------------------------------------
+  // 2. ワンタイムトークン検証
   async function initTokenAuth() {
     const urlParams = new URLSearchParams(window.location.search);
     currentToken = urlParams.get('token');
@@ -218,21 +194,19 @@ document.addEventListener('DOMContentLoaded', () => {
     authMsg.innerText = message;
   }
 
-  // --------------------------------------------------
-  // 3. 下書き保存・復元機能 (localStorage)
-  // --------------------------------------------------
+  // 3. 下書き保存・復元（すべての input/textarea の name 属性を自動対象化）
   function saveFormData() {
     const formData = {};
-    
-    // テキスト・数値項目の保存
-    AUTO_SAVE_FIELDS.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) formData[id] = el.value;
-    });
+    const elements = form.querySelectorAll('[name]');
 
-    // ラジオボタンの保存
-    const studioChecked = document.querySelector('input[name="studio_exp"]:checked');
-    if (studioChecked) formData.studio_exp = studioChecked.value;
+    elements.forEach(el => {
+      if (!el.name) return;
+      if (el.type === 'radio') {
+        if (el.checked) formData[el.name] = el.value;
+      } else if (el.type !== 'file') {
+        formData[el.name] = el.value;
+      }
+    });
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
   }
@@ -243,20 +217,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       const parsedData = JSON.parse(savedData);
-
-      // テキスト・数値項目の復元
-      AUTO_SAVE_FIELDS.forEach(id => {
-        const el = document.getElementById(id);
-        if (el && parsedData[id] !== undefined) {
-          el.value = parsedData[id];
+      Object.keys(parsedData).forEach(name => {
+        const val = parsedData[name];
+        const radio = form.querySelector(`input[type="radio"][name="${name}"][value="${val}"]`);
+        if (radio) {
+          radio.checked = true;
+        } else {
+          const field = form.querySelector(`[name="${name}"]`);
+          if (field && field.type !== 'file') field.value = val;
         }
       });
-
-      // ラジオボタンの復元
-      if (parsedData.studio_exp) {
-        const radio = document.querySelector(`input[name="studio_exp"][value="${parsedData.studio_exp}"]`);
-        if (radio) radio.checked = true;
-      }
     } catch (e) {
       console.error('下書きデータの復元に失敗しました', e);
     }
@@ -266,14 +236,10 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.removeItem(STORAGE_KEY);
   }
 
-  // --------------------------------------------------
   // 4. イベントリスナーの設定
-  // --------------------------------------------------
   function setupEventListeners() {
     form.addEventListener('submit', handleSubmit);
     fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
-
-    // 入力変更時に自動保存
     form.addEventListener('input', saveFormData);
 
     closeBtn.addEventListener('click', () => {
@@ -281,7 +247,6 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.reload();
     });
 
-    // ドラッグ＆ドロップ
     dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
     dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
     dropZone.addEventListener('drop', e => {
@@ -291,9 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --------------------------------------------------
   // 5. ファイル処理 & プレビュー
-  // --------------------------------------------------
   function handleFiles(files) {
     Array.from(files).forEach(f => {
       if (!f.type.startsWith('image/')) { alert(`${f.name} は画像ではありません。`); return; }
@@ -304,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     fileInput.value = '';
     renderPreviews();
-    // ポートフォリオのエラー表示を消す
+
     const errPortfolio = document.getElementById('err_portfolio');
     if (errPortfolio && selectedFiles.length > 0) errPortfolio.classList.remove('show');
   }
@@ -364,34 +327,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --------------------------------------------------
-  // 6. バリデーション
-  // --------------------------------------------------
+  // 6. バリデーション（data-err 属性で判定）
   function validateForm() {
     let valid = true;
 
-    REQUIRED_FIELDS.forEach(([id, errId]) => {
-      const el = document.getElementById(id);
-      const err = document.getElementById(errId);
-      if (!el || !el.value.trim()) {
-        if (el) el.classList.add('error');
-        if (err) err.classList.add('show');
+    form.querySelectorAll('[data-err]').forEach(el => {
+      const errEl = document.getElementById(el.dataset.err);
+      let isFieldValid = true;
+
+      if (el.type === 'radio') {
+        const checked = form.querySelector(`input[name="${el.name}"]:checked`);
+        isFieldValid = !!checked;
+      } else {
+        isFieldValid = !!el.value.trim();
+      }
+
+      if (!isFieldValid) {
+        el.classList.add('error');
+        if (errEl) errEl.classList.add('show');
         valid = false;
       } else {
-        if (el) el.classList.remove('error');
-        if (err) err.classList.remove('show');
+        el.classList.remove('error');
+        if (errEl) errEl.classList.remove('show');
       }
     });
 
-    const studioChecked = document.querySelector('input[name="studio_exp"]:checked');
-    const errStudio = document.getElementById('err_studio_exp');
-    if (!studioChecked) {
-      if (errStudio) errStudio.classList.add('show');
-      valid = false;
-    } else {
-      if (errStudio) errStudio.classList.remove('show');
-    }
-
+    // ポートフォリオ画像のチェック
     const errPortfolio = document.getElementById('err_portfolio');
     if (selectedFiles.length === 0) {
       if (errPortfolio) errPortfolio.classList.add('show');
@@ -403,9 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return valid;
   }
 
-  // --------------------------------------------------
-  // 7. 送信処理
-  // --------------------------------------------------
+  // 7. 送信処理（フォームデータを自動パースしてGASへ送信）
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -429,21 +388,20 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const processedImages = await Promise.all(selectedFiles.map(file => compressImage(file)));
 
-      const payload = {
-        token: currentToken,
-        discord_id: document.getElementById('discord_id').value.trim(),
-        roblox_id: document.getElementById('roblox_id').value.trim(),
-        age: document.getElementById('age').value,
-        reason_apply: document.getElementById('reason_apply').value.trim(),
-        reason_other: document.getElementById('reason_other').value.trim(),
-        languages: document.getElementById('languages').value.trim(),
-        studio_exp: document.querySelector('input[name="studio_exp"]:checked').value,
-        technical_strengths: document.getElementById('technical_strengths').value.trim(),
-        free_text: document.getElementById('free_text').value.trim(),
-        math: document.getElementById('math_question').value.trim(),
-        common: document.getElementById('general_knowledge').value.trim(),
-        images: processedImages
-      };
+      // 送信データの生成
+      const payload = { token: currentToken };
+      const elements = form.querySelectorAll('[name]');
+
+      elements.forEach(el => {
+        if (!el.name || el.type === 'file') return;
+        if (el.type === 'radio') {
+          if (el.checked) payload[el.name] = el.value;
+        } else {
+          payload[el.name] = el.value.trim();
+        }
+      });
+
+      payload.images = processedImages;
 
       const res = await fetch(GAS_URL, {
         method: 'POST',
@@ -457,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await res.json();
 
       if (result.status === 'success') {
-        clearFormData(); // 下書きの削除
+        clearFormData();
         form.reset();
         selectedFiles = [];
         renderPreviews();
